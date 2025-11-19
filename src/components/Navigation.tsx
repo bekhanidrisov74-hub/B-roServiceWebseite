@@ -52,9 +52,11 @@ const Navigation = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled || isMobileMenuOpen
-          ? 'bg-white/80 backdrop-blur-xl shadow-lg border-b border-white/20 py-3'
-          : 'bg-transparent py-6'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isMobileMenuOpen
+          ? 'bg-background-page py-3 shadow-none'
+          : isScrolled
+            ? 'bg-white/80 backdrop-blur-xl shadow-lg border-b border-white/20 py-3'
+            : 'bg-transparent py-6'
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,8 +76,8 @@ const Navigation = () => {
                 key={link.href}
                 onClick={() => scrollToSection(link.href)}
                 className={`text-sm font-medium tracking-wide transition-all duration-300 hover:-translate-y-0.5 ${isScrolled
-                    ? 'text-primary-800 hover:text-accent-600'
-                    : 'text-primary-900 hover:text-accent-600'
+                  ? 'text-primary-800 hover:text-accent-600'
+                  : 'text-primary-900 hover:text-accent-600'
                   }`}
               >
                 {link.label}
@@ -85,8 +87,8 @@ const Navigation = () => {
             <button
               onClick={() => scrollToSection('#kontakt')}
               className={`px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg ${isScrolled
-                  ? 'bg-primary-900 text-white hover:bg-primary-800 shadow-md'
-                  : 'bg-white/90 backdrop-blur-sm text-primary-900 hover:bg-white shadow-sm border border-white/50'
+                ? 'bg-primary-900 text-white hover:bg-primary-800 shadow-md'
+                : 'bg-white/90 backdrop-blur-sm text-primary-900 hover:bg-white shadow-sm border border-white/50'
                 }`}
             >
               Kontakt aufnehmen
@@ -108,24 +110,31 @@ const Navigation = () => {
 
       {/* Mobile Navigation Overlay */}
       <div
-        className={`fixed inset-0 bg-white/95 backdrop-blur-xl z-40 transition-all duration-500 md:hidden flex flex-col justify-center items-center space-y-8 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        className={`fixed inset-0 bg-background-page/98 backdrop-blur-xl z-40 transition-all duration-500 md:hidden flex flex-col justify-center items-center space-y-8 ${isMobileMenuOpen ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 -translate-y-4 pointer-events-none'
           }`}
+        style={{ top: '0', paddingTop: '80px' }}
       >
-        {navLinks.map((link) => (
+        <div className="flex flex-col items-center space-y-6 w-full px-6">
+          {navLinks.map((link, index) => (
+            <button
+              key={link.href}
+              onClick={() => scrollToSection(link.href)}
+              className="text-3xl font-serif font-medium text-primary-900 hover:text-accent-500 transition-all duration-300 transform hover:scale-105"
+              style={{ transitionDelay: `${index * 50}ms` }}
+            >
+              {link.label}
+            </button>
+          ))}
+
+          <div className="w-16 h-0.5 bg-neutral-200 my-6"></div>
+
           <button
-            key={link.href}
-            onClick={() => scrollToSection(link.href)}
-            className="text-2xl font-serif font-medium text-primary-900 hover:text-accent-600 transition-colors"
+            onClick={() => scrollToSection('#kontakt')}
+            className="w-full max-w-xs px-8 py-4 bg-primary-900 text-white rounded-2xl text-lg font-bold hover:bg-primary-800 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 flex items-center justify-center space-x-2"
           >
-            {link.label}
+            <span>Kontakt aufnehmen</span>
           </button>
-        ))}
-        <button
-          onClick={() => scrollToSection('#kontakt')}
-          className="mt-4 px-8 py-3 bg-primary-900 text-white rounded-full text-lg font-medium hover:bg-primary-800 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-        >
-          Kontakt aufnehmen
-        </button>
+        </div>
       </div>
     </nav>
   );
