@@ -93,7 +93,7 @@ const Kontakt = () => {
             'Accept': 'application/json'
           },
           body: JSON.stringify({
-            access_key: 'YOUR_WEB3FORMS_ACCESS_KEY', // Sie müssen diesen Schlüssel auf https://web3forms.com erhalten
+            access_key: 'f630f9d8-eb8e-4e26-ab90-1a8ece54af84',
             subject: `Neue Anfrage von ${formData.name} - ${formData.unternehmen}`,
             from_name: formData.name,
             email: formData.email,
