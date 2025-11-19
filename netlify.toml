@@ -1,0 +1,70 @@
+# Netlify Build Configuration
+[build]
+  # Build command (wird bei jedem Deployment ausgeführt)
+  command = "npm run build"
+  
+  # Verzeichnis mit den fertigen Dateien
+  publish = "dist"
+  
+  # Node.js Version
+  [build.environment]
+    NODE_VERSION = "18"
+
+# Redirect-Regeln für React Router (SPA)
+# Leitet alle Anfragen zur index.html für Client-Side Routing
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Security Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Verhindert Clickjacking
+    X-Frame-Options = "DENY"
+    
+    # XSS-Schutz
+    X-XSS-Protection = "1; mode=block"
+    
+    # Verhindert MIME-Type-Sniffing
+    X-Content-Type-Options = "nosniff"
+    
+    # Referrer Policy
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    
+    # Content Security Policy (anpassen falls nötig)
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.web3forms.com;"
+
+# Cache-Einstellungen für Assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache-Einstellungen für Bilder
+[[headers]]
+  for = "*.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "*.webp"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache-Einstellungen für Fonts
+[[headers]]
+  for = "*.woff2"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Netlify Forms (optional - falls Sie Netlify Forms statt Web3Forms nutzen möchten)
+# Kommentieren Sie diese Zeile ein, wenn Sie Netlify Forms nutzen möchten:
+# [build]
+#   functions = "netlify/functions"
